@@ -141,7 +141,7 @@ static Key keys[] = {
 // modifier                     key               function        argument
   STACKKEYS(MODKEY,                               focus)
   STACKKEYS(MODKEY|ShiftMask,                     push)
-//{ MODKEY|ShiftMask,           XK_Escape,        spawn,          SHCMD("") },
+  { MODKEY|ShiftMask,           XK_Escape,        spawn,          SHCMD("rofi -show power-menu -modi power-menu:.config/rofi/rofi-power-menu") },
 //{ MODKEY,                     XK_grave,         spawn,          SHCMD("dmenuunicode") },
 //{ MODKEY|ShiftMask,	          XK_grave,         togglescratch,  SHCMD("") },
   TAGKEYS(                      XK_1,             0)
@@ -210,7 +210,7 @@ static Key keys[] = {
 //{ MODKEY|ShiftMask,           XK_apostrophe,    spawn,          SHCMD("") },
 //{ MODKEY|ShiftMask,           XK_apostrophe,    togglesmartgaps,{0} },
   { MODKEY,                     XK_Return,        spawn,          {.v = termcmd } },
-  { MODKEY|ShiftMask,           XK_Return,        spawn,          SHCMD("st") },
+  { MODKEY|ShiftMask,           XK_Return,        spawn,          SHCMD("kitty") },
 
   { MODKEY,                     XK_z,             incrgaps,       {.i = -3 } }, // decrease gaps
 //{ MODKEY|ShiftMask,           XK_z,             spawn,          SHCMD("") },
