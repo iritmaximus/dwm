@@ -12,7 +12,7 @@ static unsigned int snap            = 32;       /* snap pixel */
 static unsigned int gappih          = 20;       /* horiz inner gap between windows */
 static unsigned int gappiv          = 10;       /* vert inner gap between windows */
 static unsigned int gappoh          = 10;       /* horiz outer gap between windows and screen edge */
-static unsigned int gappov          = 30;       /* vert outer gap between windows and screen edge */
+static unsigned int gappov          = 15;       /* vert outer gap between windows and screen edge */
 static int swallowfloating          = 0;        /* 1 means swallow floating windows by default */
 static int smartgaps                = 0;        /* 1 means no outer gap when there is only one window */
 static int showbar                  = 1;        /* 0 means no bar */
@@ -168,8 +168,8 @@ static Key keys[] = {
   { MODKEY|ShiftMask,           XK_q,             quit,          {0} },
   { MODKEY,                     XK_w,             spawn,          SHCMD("firefox") },
   { MODKEY|ShiftMask,           XK_w,             spawn,          SHCMD("google-chrome-stable") },
-  { MODKEY,                     XK_e,             spawn,          SHCMD(TERMINAL " -e vim") },
-  { MODKEY|ShiftMask,           XK_e,             spawn,          SHCMD(TERMINAL " -e vim ~/.vimrc") },
+  { MODKEY,                     XK_e,             spawn,          SHCMD(TERMINAL " -e nvim") },
+  { MODKEY|ShiftMask,           XK_e,             spawn,          SHCMD(TERMINAL " -e nvim ~/.vim/vimrc") },
   { MODKEY,                     XK_r,             spawn,          SHCMD(TERMINAL " -e ranger") },
   { MODKEY|ShiftMask,           XK_r,             spawn,          SHCMD(TERMINAL " -e htop") },
   { MODKEY,                     XK_t,             setlayout,      {.v = &layouts[0]} }, /* tile */
@@ -183,7 +183,8 @@ static Key keys[] = {
   { MODKEY,                     XK_o,             incnmaster,     {.i = +1 } },
   { MODKEY|ShiftMask,           XK_o,             incnmaster,     {.i = -1 } },
   { MODKEY,                     XK_p,             spawn,          SHCMD("wal -i ~/.wallpapers") },
-  { MODKEY|ShiftMask,           XK_p,             spawn,          SHCMD("picom --experimental-backends --backend glx -b; wal -i ~/.wallpapers") },
+  { MODKEY|ShiftMask,           XK_p,             spawn,          SHCMD("wal -l -i ~/.wallpapers") },
+  { MODKEY|ControlMask,         XK_p,             spawn,          SHCMD("wal --theme random_light") },
 //{ MODKEY,                     XK_bracketleft,   spawn,          SHCMD("") },
 //{ MODKEY|ShiftMask,           XK_bracketleft,   spawn,          SHCMD("") },
 //{ MODKEY,                     XK_bracketright,  spawn,          SHCMD("") },
@@ -193,8 +194,8 @@ static Key keys[] = {
 
   { MODKEY,                     XK_a,             togglegaps,     {0} },  // gaps on/off
   { MODKEY|ShiftMask,           XK_a,             defaultgaps,    {0} },  // reset gaps
-  { MODKEY,                     XK_s,             togglesticky,   {0} },  // sticky windows on/off
-  { MODKEY|ShiftMask,           XK_s,             togglesmartgaps,{0} },  // smart gaps
+  { MODKEY,                     XK_s,             togglesmartgaps,{0} },  // sticky windows on/off
+  { MODKEY|ShiftMask,           XK_s,             togglesticky,   {0} },  // smart gaps
   { MODKEY,                     XK_d,             spawn,          SHCMD("rofi -modi drun,run -show drun") }, // rofi
   { MODKEY|ShiftMask,           XK_d,             spawn,          SHCMD("dmenu_run") },  // TODO dmenu
   { MODKEY,                     XK_f,             togglefullscr,  {0} },                // fullscreen
@@ -216,11 +217,12 @@ static Key keys[] = {
 //{ MODKEY|ShiftMask,           XK_z,             spawn,          SHCMD("") },
   { MODKEY,                     XK_x,             incrgaps,       {.i = +3 } }, // increase gaps
 //{ MODKEY|ShiftMask,           XK_x,             spawn,          SHCMD("") },
-  { MODKEY,                     XK_c,             spawn,          SHCMD(TERMINAL " -e vim ~/.dwm/config.h") },
+  { MODKEY,                     XK_c,             spawn,          SHCMD(TERMINAL " -e nvim ~/.dwm/config.h") },
   { MODKEY|ShiftMask,           XK_c,             spawn,          SHCMD("code") },
 //V is automatically bound above in STACKKEYS
-  { MODKEY,                     XK_b,             spawn,          SHCMD("~/.config/polybar/hack/scripts/pywal.sh .wallpapers; ~/.config/polybar/launch.sh --hack") }, //toggle polybar
-  { MODKEY|ShiftMask,           XK_b,             togglebar,      {0} },  //toggle dwmbar / blocks
+  { MODKEY,                     XK_b,             togglebar,      {0} },  //toggle dwmbar / blocks
+  { MODKEY|ShiftMask,           XK_b,             spawn,          SHCMD("~/.config/polybar/hack/scripts/pywal.sh .wallpapers; ~/.config/polybar/launch.sh --hack") }, //toggle polybar
+
   { MODKEY,                     XK_n,             spawn,          SHCMD(TERMINAL " -e nmtui") },
 //{ MODKEY|ShiftMask,           XK_n,             spawn,          SHCMD(TERMINAL " -e  ") },
   { MODKEY,                     XK_m,             spawn,          SHCMD(TERMINAL " -e ncspot") },
@@ -263,9 +265,11 @@ static Key keys[] = {
   { MODKEY,                     XK_Delete,        spawn,          SHCMD("killall -q polybar") }, // TODO kill all polybars
 //{ MODKEY,                     XK_Scroll_Lock,   spawn,          SHCMD("killall screenkey || screenkey &") },
 
-  { 0, XF86XK_AudioMute,                          spawn,          SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle") },
+  { MODKEY,                     XF86XK_AudioMute, spawn,          SHCMD(TERMINAL " -e pavucontrol") },
+  { 0, XF86XK_AudioMute,                          spawn,          SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle; .scripts/volumechangenotification.sh") },
   { 0, XF86XK_AudioRaiseVolume,                   spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5%; .scripts/volumechangenotification.sh") },
   { 0, XF86XK_AudioLowerVolume,                   spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5%; .scripts/volumechangenotification.sh") },
+  { 0, XF86XK_AudioMicMute,                       spawn,          SHCMD("pactl set-source-mute @DEFAULT_SOURCE@ toggle") },
 //{ 0, XF86XK_AudioPrev,                          spawn,          SHCMD("mpc prev") },
 //{ 0, XF86XK_AudioNext,                          spawn,          SHCMD("mpc next") },
 //{ 0, XF86XK_AudioPause,                         spawn,          SHCMD("mpc pause") },
@@ -274,7 +278,6 @@ static Key keys[] = {
 //{ 0, XF86XK_AudioRewind,                        spawn,          SHCMD("mpc seek -10") },
 //{ 0, XF86XK_AudioForward,                       spawn,          SHCMD("mpc seek +10") },
 //{ 0, XF86XK_AudioMedia,                         spawn,          SHCMD(TERMINAL " -e ncmpcpp") },
-//{ 0, XF86XK_AudioMicMute,                       spawn,          SHCMD("pactl set-source-mute @DEFAULT_SOURCE@ toggle") },
 //{ 0, XF86XK_PowerOff,                           spawn,          SHCMD("sysact") },
 //{ 0, XF86XK_Calculator,                         spawn,          SHCMD(TERMINAL " -e bc -l") },
 //{ 0, XF86XK_Sleep,                              spawn,          SHCMD("sudo -A zzz") },
@@ -291,6 +294,7 @@ static Key keys[] = {
 //{ 0, XF86XK_TouchpadOn,                         spawn,          SHCMD("synclient TouchpadOff=0") },
   { 0, XF86XK_MonBrightnessUp,                    spawn,          SHCMD("xbacklight -inc 10; .scripts/brightnessnotification.sh") },
   { 0, XF86XK_MonBrightnessDown,                  spawn,          SHCMD("xbacklight -dec 10; .scripts/brightnessnotification.sh") },
+  { MODKEY, XF86XK_MonBrightnessDown,             spawn,          SHCMD("xbacklight -set 1; .scripts/brightnessnotification.sh") },
 
 //{ MODKEY|Mod4Mask,                  XK_h,       incrgaps,       {.i = +1 } },
 //{ MODKEY|Mod4Mask,                  XK_l,       incrgaps,       {.i = -1 } },
