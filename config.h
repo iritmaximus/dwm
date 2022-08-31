@@ -168,8 +168,8 @@ static Key keys[] = {
   { MODKEY|ShiftMask,           XK_q,             quit,          {0} },
   { MODKEY,                     XK_w,             spawn,          SHCMD("firefox") },
   { MODKEY|ShiftMask,           XK_w,             spawn,          SHCMD("google-chrome-stable") },
-  { MODKEY,                     XK_e,             spawn,          SHCMD(TERMINAL " -e nvim") },
-  { MODKEY|ShiftMask,           XK_e,             spawn,          SHCMD(TERMINAL " -e nvim ~/.vim/vimrc") },
+  { MODKEY,                     XK_e,             spawn,          SHCMD(TERMINAL " -e vim") },
+  { MODKEY|ShiftMask,           XK_e,             spawn,          SHCMD(TERMINAL " -e vim ~/.vim/vimrc") },
   { MODKEY,                     XK_r,             spawn,          SHCMD(TERMINAL " -e ranger") },
   { MODKEY|ShiftMask,           XK_r,             spawn,          SHCMD(TERMINAL " -e htop") },
   { MODKEY,                     XK_t,             setlayout,      {.v = &layouts[0]} }, /* tile */
@@ -200,8 +200,8 @@ static Key keys[] = {
   { MODKEY|ShiftMask,           XK_d,             spawn,          SHCMD("dmenu_run") },  // TODO dmenu
   { MODKEY,                     XK_f,             togglefullscr,  {0} },                // fullscreen
   { MODKEY|ShiftMask,           XK_f,             setlayout,      {.v = &layouts[8]} }, // floating
-//{ MODKEY,                     XK_g,             shiftview,      { .i = -1 } },
-//{ MODKEY|ShiftMask,           XK_g,             shifttag,       { .i = -1 } },
+  { MODKEY,                     XK_g,             spawn,          SHCMD("setxkbmap fi") },
+  { MODKEY|ShiftMask,           XK_g,             spawn,          SHCMD("xmodmap ~/.config/.Xmodmap") },
   { MODKEY,                     XK_h,             setmfact,       {.f = -0.05} },
   /* J and K are automatically bound above in STACKEYS */
   { MODKEY,                     XK_l,             setmfact,       {.f = +0.05} },
@@ -217,7 +217,7 @@ static Key keys[] = {
 //{ MODKEY|ShiftMask,           XK_z,             spawn,          SHCMD("") },
   { MODKEY,                     XK_x,             incrgaps,       {.i = +3 } }, // increase gaps
 //{ MODKEY|ShiftMask,           XK_x,             spawn,          SHCMD("") },
-  { MODKEY,                     XK_c,             spawn,          SHCMD(TERMINAL " -e nvim ~/.dwm/config.h") },
+  { MODKEY,                     XK_c,             spawn,          SHCMD(TERMINAL " -e vim ~/.dwm/config.h") },
   { MODKEY|ShiftMask,           XK_c,             spawn,          SHCMD("code") },
 //V is automatically bound above in STACKKEYS
   { MODKEY,                     XK_b,             togglebar,      {0} },  //toggle dwmbar / blocks
@@ -227,19 +227,19 @@ static Key keys[] = {
 //{ MODKEY|ShiftMask,           XK_n,             spawn,          SHCMD(TERMINAL " -e  ") },
   { MODKEY,                     XK_m,             spawn,          SHCMD(TERMINAL " -e ncspot") },
   { MODKEY|ShiftMask,           XK_m,             spawn,          SHCMD(TERMINAL " -e ncmpcpp") },
-//{ MODKEY,                     XK_comma,         spawn,          SHCMD("mpc prev") },
-//{ MODKEY|ShiftMask,           XK_comma,         spawn,          SHCMD("mpc seek 0%") },
-//{ MODKEY,                     XK_period,        spawn,          SHCMD("mpc next") },
-//{ MODKEY|ShiftMask,           XK_period,        spawn,          SHCMD("mpc repeat") },
+  { MODKEY,                     XK_comma,         focusmon,       {.i = -1 } },
+  { MODKEY|ShiftMask,           XK_comma,         tagmon,         {.i = -1 } },
+  { MODKEY,                     XK_period,        focusmon,       {.i = +1 } },
+  { MODKEY|ShiftMask,           XK_period,        tagmon,         {.i = +1 } },
 
 //{ MODKEY,                     XK_Left,          focusmon,       {.i = -1 } },
 //{ MODKEY|ShiftMask,           XK_Left,          tagmon,         {.i = -1 } },
 //{ MODKEY,                     XK_Right,         focusmon,       {.i = +1 } },
 //{ MODKEY|ShiftMask,           XK_Right,         tagmon,         {.i = +1 } },
 
-//{ MODKEY,                     XK_Page_Up,       shiftview,      { .i = -1 } },
+/* { MODKEY,                    XK_Page_Up,       spawn,          SHCMD("setxkbmap fi") }, */
 //{ MODKEY|ShiftMask,           XK_Page_Up,       shifttag,       { .i = -1 } },
-//{ MODKEY,                     XK_Page_Down,     shiftview,      { .i = +1 } },
+/* { MODKEY,                    XK_Page_Down,     spawn,          SHCMD("xmodmap ~/.config/.Xmodmap") }, */
 //{ MODKEY|ShiftMask,           XK_Page_Down,     shifttag,       { .i = +1 } },
 //{ MODKEY,                     XK_Insert,        spawn,          SHCMD("xdotool type $(grep -v '^#' ~/.local/share/larbs/snippets | dmenu -i -l 50 | cut -d' ' -f1)") },
 
@@ -296,6 +296,9 @@ static Key keys[] = {
   { 0, XF86XK_MonBrightnessDown,                  spawn,          SHCMD("xbacklight -dec 10; .scripts/brightnessnotification.sh") },
   { MODKEY, XF86XK_MonBrightnessDown,             spawn,          SHCMD("xbacklight -set 1; .scripts/brightnessnotification.sh") },
 
+  /* { MODKEY|Mod4Mask,                  XK_j,       focusmon,       {.i = -1 } }, */
+  /* { MODKEY|Mod4Mask,                  XK_k,       focusmon,       {.i = +1 } }, */
+
 //{ MODKEY|Mod4Mask,                  XK_h,       incrgaps,       {.i = +1 } },
 //{ MODKEY|Mod4Mask,                  XK_l,       incrgaps,       {.i = -1 } },
 //{ MODKEY|Mod4Mask|ShiftMask,        XK_h,       incrogaps,      {.i = +1 } },
@@ -327,7 +330,7 @@ static Button buttons[] = {
   { ClkStatusText,        0,              Button5,        sigdwmblocks,   {.i = 5} },
   { ClkStatusText,        ShiftMask,      Button1,        sigdwmblocks,   {.i = 6} },
 #endif
-  { ClkStatusText,        ShiftMask,      Button3,        spawn,          SHCMD(TERMINAL " -e nvim ~/.local/src/dwmblocks/config.h") },
+  { ClkStatusText,        ShiftMask,      Button3,        spawn,          SHCMD(TERMINAL " -e vim ~/.local/src/dwmblocks/config.h") },
   { ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
   { ClkClientWin,         MODKEY,         Button2,        defaultgaps,    {0} },
   { ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
