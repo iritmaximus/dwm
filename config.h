@@ -168,10 +168,10 @@ static Key keys[] = {
   { MODKEY|ShiftMask,           XK_q,             quit,          {0} },
   { MODKEY,                     XK_w,             spawn,          SHCMD("firefox") },
   { MODKEY|ShiftMask,           XK_w,             spawn,          SHCMD("google-chrome-stable") },
-  { MODKEY,                     XK_e,             spawn,          SHCMD(TERMINAL " -e vim") },
-  { MODKEY|ShiftMask,           XK_e,             spawn,          SHCMD(TERMINAL " -e vim ~/.vim/vimrc") },
+  { MODKEY,                     XK_e,             spawn,          SHCMD(TERMINAL " -e vim ~/.vim/vimrc") },
+  { MODKEY|ShiftMask,           XK_e,             spawn,          SHCMD(TERMINAL " -e vim ~/.config/nvim/init.vim") },
   { MODKEY,                     XK_r,             spawn,          SHCMD(TERMINAL " -e ranger") },
-  { MODKEY|ShiftMask,           XK_r,             spawn,          SHCMD(TERMINAL " -e htop") },
+  { MODKEY|ShiftMask,           XK_r,             spawn,          SHCMD(TERMINAL " -e btop") },
   { MODKEY,                     XK_t,             setlayout,      {.v = &layouts[0]} }, /* tile */
   { MODKEY|ShiftMask,           XK_t,             setlayout,      {.v = &layouts[1]} }, /* bstack */
   { MODKEY,                     XK_y,             setlayout,      {.v = &layouts[2]} }, /* spiral */
@@ -182,9 +182,9 @@ static Key keys[] = {
   { MODKEY|ShiftMask,           XK_i,             setlayout,      {.v = &layouts[7]} }, /* centeredfloatingmaster */
   { MODKEY,                     XK_o,             incnmaster,     {.i = +1 } },
   { MODKEY|ShiftMask,           XK_o,             incnmaster,     {.i = -1 } },
-  { MODKEY,                     XK_p,             spawn,          SHCMD("wal -i ~/.wallpapers") },
-  { MODKEY|ShiftMask,           XK_p,             spawn,          SHCMD("wal -l -i ~/.wallpapers") },
-  { MODKEY|ControlMask,         XK_p,             spawn,          SHCMD("wal --theme random_light") },
+  { MODKEY,                     XK_p,             spawn,          SHCMD("feh --bg-max --randomize ~/.wallpapers/*") },
+  { MODKEY|ShiftMask,           XK_p,             spawn,          SHCMD("~/.config/polybar/launch.sh") },
+/* { MODKEY|ControlMask,         XK_p,             spawn,          SHCMD("wal --theme random_light") }, */
 //{ MODKEY,                     XK_bracketleft,   spawn,          SHCMD("") },
 //{ MODKEY|ShiftMask,           XK_bracketleft,   spawn,          SHCMD("") },
 //{ MODKEY,                     XK_bracketright,  spawn,          SHCMD("") },
@@ -200,8 +200,10 @@ static Key keys[] = {
   { MODKEY|ShiftMask,           XK_d,             spawn,          SHCMD("dmenu_run") },  // TODO dmenu
   { MODKEY,                     XK_f,             togglefullscr,  {0} },                // fullscreen
   { MODKEY|ShiftMask,           XK_f,             setlayout,      {.v = &layouts[8]} }, // floating
-  { MODKEY,                     XK_g,             spawn,          SHCMD("setxkbmap fi") },
+  { MODKEY,                     XK_g,             spawn,          SHCMD("setxkbmap -option caps:escape fi") },
   { MODKEY|ShiftMask,           XK_g,             spawn,          SHCMD("xmodmap ~/.config/.Xmodmap") },
+  /* { MODKEY|ControlMask,         XK_g,             spawn,          SHCMD("xmodmap ~/.config/.Xmodmap-colemak") }, */
+  { MODKEY|ControlMask,         XK_g,             spawn,          SHCMD("xmodmap ~/.config/colemak_dh_iso_us.xmodmap") },
   { MODKEY,                     XK_h,             setmfact,       {.f = -0.05} },
   /* J and K are automatically bound above in STACKEYS */
   { MODKEY,                     XK_l,             setmfact,       {.f = +0.05} },
